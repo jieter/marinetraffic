@@ -6,6 +6,8 @@ Please note that this should be used for personal convenience only and not in pr
 
 ## Usage
 
+`npm install marinetraffic`
+
 ```JavaScript
 var marinetraffic = require('marinetraffic');
 
@@ -57,3 +59,9 @@ Returns a [GeoJSON](http://geojson.org/) representation of the track. It takes a
 }
 ```
 
+## Example
+To start the example, after cloning the repo, running
+```
+npm install && cd example && npm install && npm start
+```
+will start the server on [http://localhost:8888](http://localhost:8888).

@@ -4,7 +4,8 @@
   "description": "Fetch data from http://marinetraffic.com",
   "main": "index.js",
   "directories": {
-    "test": "test"
+    "test": "test",
+    "example": "example"
   },
   "scripts": {
     "test": "mocha -R spec"
