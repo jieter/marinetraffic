@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Marinetraffic/Leaflet Demo</title>
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+	<!--[if lte IE 8]>
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+	<![endif]-->
+	<style type="text/css">
+		html, body { width: 100%; height: 100%; margin: 0; }
+		#map { width: 100%; height: 100%; }
+
+	</style>
+</head>
+
+<body>
+	<div id="map"></div>
+
+	<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet-src.js"></script>
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script>
+	var Stamen_TonerLite = L.tileLayer('http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
+		attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+		subdomains: 'abcd',
+		minZoom: 0,
+		maxZoom: 20
+	});
+	var OpenSeaMap = L.tileLayer('http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
+		attribution: 'Map data: &copy; <a href="http://www.openseamap.org">OpenSeaMap</a> contributors'
+	});
+
+	var map = L.map('map', {
+		layers: [Stamen_TonerLite, OpenSeaMap],
+		center: [52, 4.2],
+		zoom: 4
+	});
+
+	var track = L.geoJson(null, {
+		style: {
+			color: '#ff0000'
+		}
+	}).addTo(map);
+
+
+	function loadVesselTrack(mmsi) {
+		if (mmsi.length !== 9) {
+			return;
+		}
+		$.getJSON('/marinetraffic?mmsi=' + mmsi, function (result) {
+			track.clearLayers();
+			track.addData(result);
+			map.fitBounds(track.getBounds());
+		});
+	};
+
+	var control = L.control();
+	control.onAdd = function (map) {
+		input = L.DomUtil.create('input', 'mmsi'); // create a div with a class "info"
+		input.id = 'mmsi';
+		input.value = '244543000';
+
+		L.DomEvent.addListener(input, 'change', function () {
+			loadVesselTrack(input.value);
+		});
+
+		loadVesselTrack(input.value);
+
+		return input;
+	};
+	control.addTo(map);
+
+
+
+	</script>
+</body>
+</html>

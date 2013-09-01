@@ -1,0 +1,26 @@
+{
+  "name": "marinetraffic",
+  "version": "0.0.0",
+  "description": "Fetch data from http://marinetraffic.com",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha -R spec"
+  },
+  "repository": "",
+  "keywords": [
+    "marinetraffic",
+    "AIS",
+    "track"
+  ],
+  "author": "Jan Pieter Waagmeester",
+  "license": "MIT",
+  "dependencies": {
+    "xml2js": "~0.2.8"
+  },
+  "devDependencies": {
+    "expect.js": "~0.2.0"
+  }
+}
