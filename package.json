@@ -1,6 +1,6 @@
 {
   "name": "marinetraffic",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Fetch data from http://marinetraffic.com",
   "main": "index.js",
   "directories": {
@@ -9,16 +9,20 @@
   "scripts": {
     "test": "mocha -R spec"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jieter/marinetraffic"
+  },
   "keywords": [
     "marinetraffic",
     "AIS",
     "track"
   ],
-  "author": "Jan Pieter Waagmeester",
+  "author": "Jan Pieter Waagmeester <jieter@jieter.nl>",
   "license": "MIT",
   "dependencies": {
-    "xml2js": "~0.2.8"
+    "xml2js": "~0.2.8",
+    "underscore": "~1.5.1"
   },
   "devDependencies": {
     "expect.js": "~0.2.0"
