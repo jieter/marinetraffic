@@ -1,3 +1,5 @@
+'use strict';
+
 var connect = require('connect');
 
 var path = __dirname + '/';
@@ -10,7 +12,7 @@ connect()
 	.use(connect.static(path))
 	.use(connect.query())
 	.use(function (req, res, next) {
-		if(req.url.substr(0, 14) === '/marinetraffic') {
+		if (req.url.substr(0, 14) === '/marinetraffic') {
 			marinetraffic(req.query.mmsi, function (err, result) {
 				res.end(JSON.stringify(result.toGeoJson()));
 			});
