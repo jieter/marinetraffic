@@ -4,7 +4,7 @@ Node module to fetch a ships track from http://marinetraffic.com and convert it 
 
 Please note that this should be used for personal convenience only and not in production websites.
 
-## Usage
+## Usage example
 
 `npm install marinetraffic`
 
@@ -12,9 +12,14 @@ Please note that this should be used for personal convenience only and not in pr
 var marinetraffic = require('marinetraffic');
 
 marinetraffic(mmsi, function (err, result) {
-	console.log(result)
+	console.log(result);
 });
 ```
+## API
+
+### `marinetraffic(mmsi, callback(err, result))`
+
+Fetches the track for vessel with `mmsi`, calls `callback` when ready, with `err` and a [`result` object](#result-object) as arguments.
 
 ### `marinetraffic.fromJson(json)`
 Constructs a result object from the JSON representation of the track, for example from a cached file.
