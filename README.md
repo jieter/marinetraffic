@@ -18,8 +18,8 @@ marinetraffic(mmsi, function (err, result) {
 ## API
 
 ### `marinetraffic(mmsi, callback(err, result))`
+Fetches the track for vessel with `mmsi`, calls `callback` when ready, with `err` and a [`result` object](#result-object) as arguments.
 
-Fetches the track for vessel with `mmsi`, calls `callback` when ready, with `err` and a [`result` object][] as arguments.
 
 ### `marinetraffic.toGeoJson(json, options)`
 Convert `json` to GeoJSON with optional [`options`](#resulttogeojsonoptions).
