@@ -10,7 +10,6 @@
 	<style type="text/css">
 		html, body { width: 100%; height: 100%; margin: 0; }
 		#map { width: 100%; height: 100%; }
-
 	</style>
 </head>
 
@@ -58,7 +57,7 @@
 
 	var control = L.control();
 	control.onAdd = function (map) {
-		input = L.DomUtil.create('input', 'mmsi'); // create a div with a class "info"
+		input = L.DomUtil.create('input', 'mmsi');
 		input.id = 'mmsi';
 		input.value = '244543000';
 
@@ -71,8 +70,6 @@
 		return input;
 	};
 	control.addTo(map);
-
-
 
 	</script>
 </body>
