@@ -4,7 +4,7 @@ Node module to fetch a ships track from http://marinetraffic.com and convert it 
 
 Please note that this should be used for personal convenience only and not in production websites.
 
-## Usage
+## Usage example
 
 `npm install marinetraffic`
 
@@ -12,12 +12,23 @@ Please note that this should be used for personal convenience only and not in pr
 var marinetraffic = require('marinetraffic');
 
 marinetraffic(mmsi, function (err, result) {
-	console.log(result)
+	console.log(result);
 });
 ```
+## API
+
+### `marinetraffic(mmsi, callback(err, result))`
+
+Fetches the track for vessel with `mmsi`, calls `callback` when ready, with `err` and a [`result` object][] as arguments.
+
+### `marinetraffic.toGeoJson(json, options)`
+Convert `json` to GeoJSON with optional [`options`](#resulttogeojsonoptions).
 
 ### `marinetraffic.fromJson(json)`
 Constructs a result object from the JSON representation of the track, for example from a cached file.
+
+### `marinetraffic.xml2json(xml, callback(err, result))`
+Converts xml reply from marinetraffic to json.
 
 ## `result` object
 Example of a result object:
@@ -49,7 +60,7 @@ The `raw` member contains a JSON representation of all the points.
 Returns the union of `result` and `otherResult` by looking at the timestamps of each trackpoint, keeping the reference to `result`.
 
 ### `result.toGeoJson([options])`
-Returns a [GeoJSON](http://geojson.org/) representation of the track. It takes an `options` object to tune the output:
+Returns a [GeoJSON](http://geojson.org/) representation of the track. It takes an optional `options` object to tune the output:
 
 ```JavaScript
 {
