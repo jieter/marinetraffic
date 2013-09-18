@@ -21,6 +21,22 @@ var timeDiff = function (a, b) {
 	return Math.abs((new Date(a) - new Date(b)) / 1000);
 };
 
+var distance = function (p1, p2) {
+	var R = 6378137, // earth radius in meters
+	    d2r = Math.PI / 180,
+	    dLat = (p2[0] - p1[0]) * d2r,
+	    dLon = (p2[1] - p1[1]) * d2r,
+	    lat1 = p1[0] * d2r,
+	    lat2 = p2[0] * d2r,
+	    sin1 = Math.sin(dLat / 2),
+	    sin2 = Math.sin(dLon / 2);
+
+	var a = sin1 * sin1 + sin2 * sin2 * Math.cos(lat1) * Math.cos(lat2);
+
+	return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) / 1000;
+};
+
+
 // return average for array of numbers,
 // or, if key is defined, for key in array of objects.
 var average = function (array, key) {
@@ -43,8 +59,8 @@ var formatNum = function (num, digits) {
 // keeping the reference to dest
 var union = function (dest, array, key) {
 	var data = {};
-	[dest, array].forEach(function (array) {
-		array.forEach(function (elem) {
+	[dest, array].forEach(function (a) {
+		a.forEach(function (elem) {
 			data[elem[key]] = elem;
 		});
 	});
@@ -100,19 +116,32 @@ var toGeoJson = function (json, options) {
 	options = _.extend({
 		points: false, // output Point features for each track point
 		speedThreshold: 0.51, // ignore points with speeds below threshold
-		timeThreshold: 2 * 60 * 60 // 2h split = new leg.
+		timeThreshold: 2 * 60 * 60, // 2h split = new leg.
+		splitLocations: []
 	}, options);
 
 	var features = [];
 
-	var prev, splitHere, lastPt;
+	var prev, splitHere, lastPt, timeThresholdExceeded, dist
 	var line = [];
 
 	json.forEach(function (value, key) {
 		lastPt = (key === json.length - 1);
 
-		splitHere = (options.timeThreshold > 0 && prev) ?
-			timeDiff(prev.timestamp, value.timestamp) > options.timeThreshold : false;
+		// decide on splitting:
+		timeThresholdExceeded = prev && timeDiff(prev.timestamp, value.timestamp) > options.timeThreshold;
+
+		if (options.timeThreshold > 0 && prev && timeThresholdExceeded) {
+			splitHere = true;
+		} else {
+			splitHere = false;
+			options.splitLocations.forEach(function (loc) {
+				dist = distance(loc, value.latlng);
+				if (dist < loc[2]) {
+					splitHere = true;
+				}
+			});
+		}
 
 		if (value.speed >= options.speedThreshold) {
 			line.push(value);
@@ -207,6 +236,7 @@ module.exports = function (mmsi, callback) {
 	});
 };
 
+module.exports.distance = distance;
 module.exports.toGeoJson = toGeoJson;
 module.exports.fromJson = fromJson;
 module.exports.toJson = xml2json;

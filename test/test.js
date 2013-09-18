@@ -6,7 +6,33 @@ var fs = require('fs');
 var expect = require('expect.js');
 var marinetraffic = require('../index.js');
 
+var delta = 1;
+
 describe('marinetraffic', function () {
+	describe('distance', function () {
+		var distanceTests = [
+			{	// London - Paris
+				latlngs: [[51.5000, -0.1167], [48.8667, 2.3333]],
+				expected: 342
+			},
+				// Amsterdam - Paris
+			{	latlngs: [[52.3500, 4.9167], [48.8667, 2.3333]],
+				expected: 427.71
+			}
+		];
+
+		it('calculate approximate distances', function () {
+			distanceTests.forEach(function (test) {
+
+				expect(
+					marinetraffic.distance(test.latlngs[0], test.latlngs[1])
+				).to.be.within(
+					test.expected - delta,
+					test.expected + delta
+				);
+			});
+		});
+	});
 
 	var xml = '<TRACK>' +
 		'<POS LON="1.51547" LAT="51.405472" SPEED="55" COURSE="148" TIMESTAMP="2013-08-29T00:03:00" />' +
