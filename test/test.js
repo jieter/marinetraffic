@@ -3,7 +3,7 @@
 'use strict';
 
 var fs = require('fs');
-var expect = require('expect.js');
+var chai = require('chai').should();
 var marinetraffic = require('../index.js');
 
 var delta = 1;
@@ -24,12 +24,8 @@ describe('marinetraffic', function () {
 		it('calculate approximate distances', function () {
 			distanceTests.forEach(function (test) {
 
-				expect(
-					marinetraffic.distance(test.latlngs[0], test.latlngs[1])
-				).to.be.within(
-					test.expected - delta,
-					test.expected + delta
-				);
+				marinetraffic.distance(test.latlngs[0], test.latlngs[1])
+					.should.be.closeTo(test.expected, delta);
 			});
 		});
 	});
@@ -48,18 +44,17 @@ describe('marinetraffic', function () {
 	describe('toJson', function () {
 		marinetraffic.toJson(xml, function (err, result) {
 			it('has the right keys', function () {
-				expect(result).to.have.key('raw');
-				expect(result).to.have.key('toGeoJson');
+				result.should.contain.keys('raw', 'toGeoJson');
 			});
 
 			it('has the correct number of points', function () {
-				expect(result.raw.length).to.equal(3);
+				result.raw.should.have.length(3);
 			});
 		});
 
 		marinetraffic.toJson(xmlFile, function (err, result) {
 			it('has the correct number of points', function () {
-				expect(result.raw.length).to.equal(369);
+				result.raw.should.have.length(369);
 			});
 		});
 
@@ -81,18 +76,17 @@ describe('marinetraffic', function () {
 			marinetraffic.toJson(xml, function (err, result) {
 				var ret = result.union(more);
 				it('should return an instance of itself', function () {
-					expect(ret).to.eql(result);
+					ret.should.eql(result);
 				});
 
 				it('should add two more points', function () {
-
-					expect(result.raw.length).to.equal(5);
+					result.raw.should.have.length(5);
 				});
 				it('should return those in GeoJSON as well', function () {
-					var gj = result.toGeoJson({
+					result.toGeoJson({
 						timeThreshold: 0 //disable time splitting
-					});
-					expect(gj.features[0].geometry.coordinates.length).to.equal(5);
+					}).features[0].geometry.coordinates
+						.should.have.length(5);
 				});
 			});
 		});
@@ -103,18 +97,18 @@ describe('marinetraffic', function () {
 			var gj = result.toGeoJson();
 
 			it('appears to be geoJSON', function () {
-				expect(gj).to.have.keys(['type', 'features']);
+				gj.should.contain.keys(['type', 'features']);
 			});
 
 			it('has one feature', function () {
-				expect(gj.features.length).to.be(1);
-				expect(gj.features[0]).to.have.keys(featureKeys);
+				gj.features.should.have.length(1);
+				gj.features[0].should.have.keys(featureKeys);
 			});
 
 			it('with correct properties', function () {
-				expect(gj.features[0].properties).to.have.keys([
+				gj.features[0].properties.should.have.keys(
 					'avg_sog', 'avg_cog', 'startTime', 'endTime', 'duration'
-				]);
+				);
 			});
 		});
 
@@ -127,16 +121,15 @@ describe('marinetraffic', function () {
 					});
 
 					it('has four features', function () {
-						expect(gj.features.length).to.be(4);
+						gj.features.should.have.length(4);
 						for (var i in gj.features) {
 							var feature = gj.features[i];
 
-							expect(feature).to.have.keys(featureKeys);
+							feature.should.have.keys(featureKeys);
 
 							if (feature.type === 'Point') {
-								expect(gj.features[i].properties).to.have.keys([
-									'course', 'speed', 'timestamp'
-								]);
+								gj.features[i].properties
+									.should.have.keys('course', 'speed', 'timestamp');
 							}
 						}
 					});
@@ -149,17 +142,17 @@ describe('marinetraffic', function () {
 					});
 
 					it('has three features', function () {
-						expect(gj.features.length).to.be(3);
+						gj.features.should.have.length(3);
 					});
 					it('has the LineString', function () {
 						var lineStrings = 0;
 						gj.features.forEach(function (value) {
 							if (value.geometry.type === 'LineString') {
 								lineStrings++;
-								expect(value.geometry.coordinates.length).to.be(2);
+								value.geometry.coordinates.should.have.length(2);
 							}
 						});
-						expect(lineStrings).to.be(1);
+						lineStrings.should.eql(1);
 					});
 				});
 			});
@@ -171,9 +164,9 @@ describe('marinetraffic', function () {
 					});
 
 					it('splits in 2 legs with 1h timeThreshold', function () {
-						expect(gj.features.length).to.be(2);
+						gj.features.should.have.length(2);
 						gj.features.forEach(function (feature) {
-							expect(feature.geometry.type).to.be('LineString');
+							feature.geometry.type.should.eql('LineString');
 						});
 					});
 				});
