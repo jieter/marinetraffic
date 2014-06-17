@@ -14,7 +14,14 @@ connect()
 	.use(function (req, res, next) {
 		if (req.url.substr(0, 14) === '/marinetraffic') {
 			marinetraffic(req.query.mmsi, function (err, result) {
-				res.end(JSON.stringify(result.toGeoJson()));
+				if (err) {
+					res.end(JSON.stringify({
+						error: err.message
+					}));
+				} else {
+					res.end(JSON.stringify(result.toGeoJson()));
+
+				}
 			});
 		} else {
 			next();

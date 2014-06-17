@@ -196,7 +196,7 @@ var xml2json = function (xml, callback) {
 			callback(err);
 		}
 		if (!json.TRACK || !json.TRACK.POS) {
-			callback(new Error('Unexpected xml contents'));
+			callback(new Error('Unexpected XML contents'));
 			return;
 		}
 
@@ -220,7 +220,7 @@ module.exports = function (mmsi, callback) {
 		return;
 	}
 
-	var vesselTrackUrl = 'http://www.marinetraffic.com/ais/gettrackxml.aspx?mmsi=';
+	var vesselTrackUrl = 'http://mob0.marinetraffic.com/ais/gettrackxml.aspx?mmsi=';
 
 	http.get(vesselTrackUrl + mmsi, function (res) {
 		var data = '';
