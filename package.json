@@ -1,6 +1,6 @@
 {
   "name": "marinetraffic",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Fetch data from http://marinetraffic.com",
   "main": "index.js",
   "directories": {
