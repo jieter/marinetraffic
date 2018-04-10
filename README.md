@@ -12,7 +12,7 @@ Please note that this should be used for personal convenience only and not in pr
 var marinetraffic = require('marinetraffic');
 
 marinetraffic(mmsi, function (err, result) {
-	console.log(result);
+    console.log(result);
 });
 ```
 ## API
@@ -34,23 +34,23 @@ Converts xml reply from marinetraffic to json.
 Example of a result object:
 ```JavaScript
 { raw:
-	[	{	latlng: [Object],
-			speed: 0.1,
-			course: 122,
-			timestamp: '2013-08-30T15:51:00' },
-		{ latlng: [Object],
-			speed: 0.1,
-			course: 122,
-			timestamp: '2013-08-30T16:01:00' },
+    [   {   latlng: [Object],
+            speed: 0.1,
+            course: 122,
+            timestamp: '2013-08-30T15:51:00' },
+        {   latlng: [Object],
+            speed: 0.1,
+            course: 122,
+            timestamp: '2013-08-30T16:01:00' },
 
-	[...]
+    [...]
 
-		{ latlng: [Object],
-			speed: 1.7,
-			course: 337,
-			timestamp: '2013-08-31T11:41:00' } ],
-	union: [Function],
-	toGeoJson: [Function] }
+        {   latlng: [Object],
+            speed: 1.7,
+            course: 337,
+            timestamp: '2013-08-31T11:41:00' } ],
+    union: [Function],
+    toGeoJson: [Function] }
 ```
 
 ### `result.raw`
@@ -64,9 +64,9 @@ Returns a [GeoJSON](http://geojson.org/) representation of the track. It takes a
 
 ```JavaScript
 {
-	points: false,              // output Point features for each track point
-	speedThreshold: 0.51,       // ignore points with speeds below threshold,
-	timeThreshold: 2 * 60 * 60  // create new linestring if diff exeeds 2h
+    points: false,              // output Point features for each track point
+    speedThreshold: 0.51,       // ignore points with speeds below threshold,
+    timeThreshold: 2 * 60 * 60  // create new linestring if diff exeeds 2h
 }
 ```
 
