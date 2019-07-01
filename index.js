@@ -1,6 +1,6 @@
 'use strict';
 
-var http = require('http');
+var https = require('https');
 var _ = require('underscore');
 
 // swap an [lat, lng]-array, or an array of [lat, lng]-arrays.
@@ -195,13 +195,13 @@ var xml2json = function (xml, callback) {
         if (err) {
             callback(err);
         }
-        if (!json.TRACK || !json.TRACK.POS) {
+        if (!json.VESSELTRACK || !json.VESSELTRACK.POSITION) {
             callback(new Error('Unexpected XML contents'));
             return;
         }
 
         var track = [];
-        json.TRACK.POS.forEach(function (point) {
+        json.VESSELTRACK.POSITION.forEach(function (point) {
             point = point.$;
             track.push({
                 latlng: [parseFloat(point.LAT), parseFloat(point.LON)],
@@ -210,7 +210,6 @@ var xml2json = function (xml, callback) {
                 timestamp: point.TIMESTAMP
             });
         });
-
         callback(null, fromJson(track));
     });
 };
@@ -220,9 +219,9 @@ module.exports = function (mmsi, callback) {
         return;
     }
 
-    var vesselTrackUrl = 'http://mob0.marinetraffic.com/ais/gettrackxml.aspx?mmsi=';
+    var vesselTrackUrl = 'https://services.marinetraffic.com/api/exportvesseltrack/2876731050cb171e40f66c30744ca76742b325d6/v:2/period:hourly/days:1/mmsi:';
 
-    http.get(vesselTrackUrl + mmsi, function (res) {
+    https.get(vesselTrackUrl + mmsi, function (res) {
         var data = '';
 
         res.on('data', function (chunk) {
