@@ -1,0 +1,6 @@
+/*.sqlite
+/example/node_modules
+node_modules
+*.db
+config.json
+/example/config.json
