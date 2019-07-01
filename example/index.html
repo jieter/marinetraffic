@@ -49,10 +49,11 @@
         request.onload = function (e) {
             console.log(e);
             track.clearLayers();
+console.log(e);
             track.addData(JSON.parse(e.currentTarget.response));
             map.fitBounds(track.getBounds());
         }
-
+console.log(mmsi)
         request.open('get', '/marinetraffic?mmsi=' + mmsi, true);
         request.send();
     };
@@ -61,7 +62,7 @@
     control.onAdd = function (map) {
         var input = L.DomUtil.create('input', 'mmsi');
         input.id = 'mmsi';
-        input.value = '244543000';
+        input.value = '230981000';
         L.DomEvent.disableClickPropagation(input);
         L.DomEvent.disableScrollPropagation(input);
 

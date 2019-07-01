@@ -219,7 +219,7 @@ module.exports = function (mmsi, callback) {
         return;
     }
 
-    var vesselTrackUrl = 'https://services.marinetraffic.com/api/exportvesseltrack/YOURAPIKEY/v:2/period:daily/days:5/mmsi:';
+    var vesselTrackUrl = 'https://services.marinetraffic.com/api/exportvesseltrack/2876731050cb171e40f66c30744ca76742b325d6/v:2/period:hourly/days:1/mmsi:';
 
     https.get(vesselTrackUrl + mmsi, function (res) {
         var data = '';

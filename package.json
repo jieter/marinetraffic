@@ -22,11 +22,11 @@
   "author": "Jan Pieter Waagmeester <jieter@jieter.nl>",
   "license": "MIT",
   "dependencies": {
-    "xml2js": "~0.2.8",
-    "underscore": "~1.5.1"
+    "xml2js": "~0.4.19",
+    "underscore": "~1.9.1"
   },
   "devDependencies": {
-    "mocha": "~1.12.0",
-    "chai": "~1.8.0"
+    "mocha": "~6.1.4",
+    "chai": "~4.2.0"
   }
 }
